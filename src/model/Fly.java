@@ -15,13 +15,21 @@ public class Fly{
 	private LocalTime time;
 	ArrayList<Ticket> tickets;
 	
-	public Fly(String number, Target target, Airplane airplane, LocalDate date, LocalTime time) {
-		this.number = number;
-		this.target = target;
-		this.airplane = airplane;
-		this.date = date;
-		this.time = time;
-		this.tickets= new ArrayList<>();
+	public Fly(String number, Target target, Airplane airplane, LocalDate date, LocalTime time) throws ExceptionDate {
+		
+		if(date.isAfter(LocalDate.now())) {
+			
+			throw new ExceptionDate("La fecha del vuelo es menor a la fecha actual");
+			
+		}else {
+			this.number = number;
+			this.target = target;
+			this.airplane = airplane;
+			this.date = date;
+			this.time = time;
+			this.tickets= new ArrayList<>();
+		}
+
 	}
 	public Ticket findPassenger(String id) {
 		return tickets.stream().filter((passengerAux) -> passengerAux.getPassengers().getIdPassenger().equals(id)).findFirst().map((passengerAux -> passengerAux) ).orElse(null);

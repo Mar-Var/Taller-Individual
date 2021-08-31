@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 public class Registered extends Passenger {
 	private LocalDate dateRegistered;
@@ -10,6 +11,7 @@ public class Registered extends Passenger {
 	public Registered(String idPassenger, String firstName, String lastName, String country, LocalDate dateBirthday,LocalDate dateRegistered) {
 		super(idPassenger, firstName, lastName, country, dateBirthday);
 		this.dateRegistered= dateRegistered;
+		
 	}
 
 	public LocalDate getDateRegistered() {
@@ -30,10 +32,21 @@ public class Registered extends Passenger {
 
 	@Override
 	public double getTicketCost() {	
-		double discnt=findFly(this.idPassenger).getFlights().getTarget().getValueTicket()*0.1;
-		return findFly(this.idPassenger).getFlights().getAirplane().getYear()>10 
-				?findFly(this.idPassenger).getFlights().getTarget().getValueTicket()+calcOvercrowed()-discnt-discount
-						:findFly(this.idPassenger).getFlights().getTarget().getValueTicket()+calcOvercrowed();
+		LocalDate dateNow = LocalDate.now();
+		double discountOld=findPassenger(this.idPassenger).getFlights().getTarget().getValueTicket()*0.1;
+		double discountRegistered= findPassenger(this.idPassenger).getFlights().getTarget().getValueTicket()*(discount/100);
+		return dateNow.getYear()-findPassenger(this.idPassenger).getFlights().getAirplane().getYear()>10 
+				?findPassenger(this.idPassenger)
+						.getFlights()
+						.getTarget().
+						getValueTicket()+calcOvercrowed()-discountOld-discountRegistered+calcOvercrowed()
+						:findPassenger(this.idPassenger).getFlights().getTarget().getValueTicket()+calcOvercrowed()-discountRegistered;
+	}
+
+	@Override
+	public double addMiles() {
+		this.milles+= findPassenger(this.idPassenger).getFlights().getTarget().getDistance();
+		return milles;
 	}
 	
 	

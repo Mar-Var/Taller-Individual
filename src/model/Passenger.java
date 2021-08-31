@@ -31,9 +31,16 @@ public abstract class Passenger {
 	public Ticket findFly(String id) {
 		return tickets.stream().filter((flightAux) -> flightAux.getFlights().getNumber().equals(id)).findFirst().map((flightAux -> flightAux) ).orElse(null);
 	}
+	public Ticket findPassenger(String idPassenger) {
+		return tickets.stream().filter((passengerAux) -> passengerAux.getPassengers().getIdPassenger().equals(idPassenger)).findFirst().map((passengerAux -> passengerAux) ).orElse(null);
+	}
+
 	public boolean addToFly(Fly fly,short seat){
 		if (findFly(fly.getNumber())==null) {
 			tickets.add(new Ticket(fly,this,seat));
+			if(this.getClass()==Registered.class) {
+				this.addMiles();
+			}
 			return true;
 		}
 		return false;
@@ -50,21 +57,22 @@ public abstract class Passenger {
 	// calcular el sobrepeso
 	public double calcOvercrowed() {
 		
-		if (findFly(this.idPassenger)!=null && findFly(this.idPassenger).isBaggage()) {
+		if (findPassenger(this.idPassenger)!=null && findPassenger(this.idPassenger).isBaggage()) {
 			
-			if(findFly(this.idPassenger).getWeight()>23 && findFly(this.idPassenger).getWeight()<=33 ) {
+			if(findPassenger(this.idPassenger).getWeight()>23 && findPassenger(this.idPassenger).getWeight()<=33 ) {
 				
-				return findFly(this.idPassenger).getFlights().getTarget().getValueTicket()*0.1;
+				return findPassenger(this.idPassenger).getFlights().getTarget().getValueTicket()*0.1;
 			}
-			else if(findFly(this.idPassenger).getWeight()>33) {
+			else if(findPassenger(this.idPassenger).getWeight()>33) {
 				
-				return findFly(this.idPassenger).getFlights().getTarget().getValueTicket()*0.3;
+				return findPassenger(this.idPassenger).getFlights().getTarget().getValueTicket()*0.3;
 			}
 		}
 		
 		return 0;
 	}
 	abstract public double  getTicketCost() ;
+	abstract public double  addMiles() ;
 	
 	public String getIdPassenger() {
 		return idPassenger;

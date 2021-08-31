@@ -16,8 +16,8 @@ public class Fly{
 	ArrayList<Ticket> tickets;
 	
 	public Fly(String number, Target target, Airplane airplane, LocalDate date, LocalTime time) throws ExceptionDate {
-		
-		if(date.isAfter(LocalDate.now())) {
+		try {		
+			if(date.isAfter(LocalDate.now())) {
 			
 			throw new ExceptionDate("La fecha del vuelo es menor a la fecha actual");
 			
@@ -29,6 +29,11 @@ public class Fly{
 			this.time = time;
 			this.tickets= new ArrayList<>();
 		}
+			
+		} catch (ExceptionDate e) {
+			
+		}
+
 
 	}
 	public Ticket findPassenger(String id) {
@@ -36,14 +41,14 @@ public class Fly{
 		
 	}
 	public boolean addPassenger(Passenger passenger,short seatNumber) {
-		if (findPassenger(passenger.getIdPassenger())==null && airplane.getCapacity()<=tickets.size()) {
+		if (findPassenger(passenger.getIdPassenger())==null && airplane.getCapacity()>=tickets.size()) {
 			tickets.add(new Ticket(this,passenger,seatNumber));
 			return true;
 		}
 		return false;
 	}
 	public boolean addPassenger(Passenger passenger,short seatNumber, float loadWeight) {
-		if (findPassenger(passenger.getIdPassenger())==null && airplane.getCapacity()<=tickets.size()) {
+		if (findPassenger(passenger.getIdPassenger())==null && airplane.getCapacity()>=tickets.size()+1) {
 			tickets.add(new Ticket(this,passenger,seatNumber,loadWeight));
 			return true;
 		}

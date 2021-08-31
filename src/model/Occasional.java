@@ -21,10 +21,17 @@ public class Occasional extends Passenger {
 
 	@Override
 	public double getTicketCost() {
-		double discount=findFly(this.idPassenger).getFlights().getTarget().getValueTicket()*0.1;
-		return findFly(this.idPassenger).getFlights().getAirplane().getYear()>10
-				?findFly(this.idPassenger).getFlights().getTarget().getValueTicket()+calcOvercrowed()-discount
-						:findFly(this.idPassenger).getFlights().getTarget().getValueTicket()+calcOvercrowed();
+		LocalDate dateNow = LocalDate.now();
+		double discount=findPassenger(this.idPassenger).getFlights().getTarget().getValueTicket()*0.1;
+		return dateNow.getYear()-findPassenger(this.idPassenger).getFlights().getAirplane().getYear()>10 
+				?findPassenger(this.idPassenger).getFlights().getTarget().getValueTicket()+calcOvercrowed()-discount
+						:findPassenger(this.idPassenger).getFlights().getTarget().getValueTicket()+calcOvercrowed();
+	}
+
+	@Override
+	public double addMiles() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

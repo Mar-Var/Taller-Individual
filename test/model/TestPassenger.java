@@ -12,9 +12,11 @@ import exceptions.ExceptionDate;
 
 class TestPassenger {
 
-	 private Fly fly;
+	 	private Fly fly;
+	 	private Fly fly1;
 	    private Airplane  plane;
 	    private Target madrid;
+	    private Target buenaventura;
 	    Registered fabio;
 	    Occasional victor;
 
@@ -24,7 +26,9 @@ class TestPassenger {
 	    private void setup() throws ExceptionDate {
 	        plane = new Airplane("AB-45",(short)120,(short)2015, ETypeAirplane.AirbusA330 );
 	        madrid = new Target("TG-01","Madrid",2_500_000,7890f);
+	        buenaventura = new Target("TG_ASD", "Buenaventura", 2_800_00, 2500f);
 	        fly = new Fly("Fl874",madrid,plane, LocalDate.of(2021, Month.APRIL,12), LocalTime.of(16,30));
+	        fly1 = new Fly("Fl874",buenaventura,plane, LocalDate.of(2021, Month.APRIL,12), LocalTime.of(16,30));
 
 	        fabio = new Registered("74898394","Fabio Enrique","Lozano Yepes","Colombia",LocalDate.of(1970,Month.JANUARY,11),LocalDate.of(2017,Month.FEBRUARY,12));
 
@@ -67,13 +71,11 @@ class TestPassenger {
 	    public void testOccasional() throws ExceptionDate {
 	        setup( );
 
-	        //Se agrega al vuelo de Madrid al pasajero Victor (Pasajero Ocasional). Valor del Tiquete 2.500.000
+	        //Se agrega al vuelo de Madrid al pasajero Victor (Pasajero Ocasional). Valor del Tiquete 2.500.000. Con sobreequipaje
 	        fly.addPassenger( victor,(short)10,35f );
-	        //Es necesario al Pasajero asignarle el vuelo
+	        //Es necesario al Pasajero asignarle el vuelo.Con sobreequipaje
 	        victor.addToFly( fly ,(short)10,35f );
 	        
-	        //Se asigna sobrecupo al pasajero, por lo cual al valor del tiquete se le adicionan el valor de la constante
-	        //del sobrecupo (OVERCROWED) * el valor de dolar (3_500)
 	        assertEquals( 3_250_000,victor.getTicketCost());
 
 	        fly.getAirplane().setYear( (short) 2000 );

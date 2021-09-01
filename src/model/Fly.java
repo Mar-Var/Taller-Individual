@@ -15,33 +15,28 @@ public class Fly{
 	private LocalTime time;
 	ArrayList<Ticket> tickets;
 	
-	public Fly(String number, Target target, Airplane airplane, LocalDate date, LocalTime time) throws ExceptionDate {
-		try {		
+	public Fly(String number, Target target, Airplane airplane, LocalDate date, LocalTime time) throws ExceptionDate {	
 			if(date.isAfter(LocalDate.now())) {
+				this.number = number;
+				this.target = target;
+				this.airplane = airplane;
+				this.date = date;
+				this.time = time;
+				tickets= new ArrayList<>();
+			}else {
 			
 			throw new ExceptionDate("La fecha del vuelo es menor a la fecha actual");
-			
-		}else {
-			this.number = number;
-			this.target = target;
-			this.airplane = airplane;
-			this.date = date;
-			this.time = time;
-			this.tickets= new ArrayList<>();
-		}
-			
-		} catch (ExceptionDate e) {
-			
+
 		}
 
 
 	}
-	public Ticket findPassenger(String id) {
-		return tickets.stream().filter((passengerAux) -> passengerAux.getPassengers().getIdPassenger().equals(id)).findFirst().map((passengerAux -> passengerAux) ).orElse(null);
-		
+	public Ticket findPassenger(String idPassenger) {
+		return tickets.stream().filter((passengerAux) -> passengerAux.getPassengers().getIdPassenger().equals(idPassenger)).findFirst().map((passengerAux -> passengerAux) ).orElse(null);
 	}
+	
 	public boolean addPassenger(Passenger passenger,short seatNumber) {
-		if (findPassenger(passenger.getIdPassenger())==null && airplane.getCapacity()>=tickets.size()) {
+		if (findPassenger(passenger.getIdPassenger())==null && airplane.getCapacity()>=tickets.size()+1) {
 			tickets.add(new Ticket(this,passenger,seatNumber));
 			return true;
 		}
@@ -69,14 +64,17 @@ public class Fly{
 			if(passenger.getPassengers().getAge()<menor) {
 				menor = passenger.getPassengers().getAge();
 				lessAgeTicket=passenger;
+			}else {
+				lessAgeTicket=tickets.get(0);
 			}
 		}
 		return lessAgeTicket.getPassengers();
 	}
 	public Passenger getGreaterAge() {
 		int great=tickets.get(0).getPassengers().getAge();
-		Ticket greatAgeTicket=null;
+		Ticket greatAgeTicket=tickets.get(0);
 		for (Ticket passenger : tickets) {
+			System.out.println(passenger.getPassengers().getAge()+"->"+great);
 			if(passenger.getPassengers().getAge()>great) {
 				great = passenger.getPassengers().getAge();
 				greatAgeTicket=passenger;
@@ -120,6 +118,13 @@ public class Fly{
 	public void setTickets(ArrayList<Ticket> ticket) {
 		this.tickets = ticket;
 	}
+	@Override
+	public String toString() {
+		return "Fly [number=" + number + ", target=" + target + ", airplane=" + airplane + ", date=" + date + ", time="
+				+ time + ", tickets=" + tickets + "]";
+	}
+	
+	
 	
 	
 	

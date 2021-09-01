@@ -39,7 +39,7 @@ public abstract class Passenger {
 		if (findFly(fly.getNumber())==null) {
 			tickets.add(new Ticket(fly,this,seat));
 			if(this.getClass()==Registered.class) {
-				this.addMiles();
+				this.addMiles(fly.getTarget().getDistance());
 			}
 			return true;
 		}
@@ -72,7 +72,7 @@ public abstract class Passenger {
 		return 0;
 	}
 	abstract public double  getTicketCost() ;
-	abstract public double  addMiles() ;
+	abstract public double  addMiles(float milles) ;
 	
 	public String getIdPassenger() {
 		return idPassenger;
@@ -111,6 +111,11 @@ public abstract class Passenger {
 
 	public void setTickets(ArrayList<Ticket> flights) {
 		this.tickets = flights;
+	}
+
+	public double addMiles() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

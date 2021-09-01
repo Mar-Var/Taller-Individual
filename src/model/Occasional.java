@@ -29,7 +29,7 @@ public class Occasional extends Passenger {
 	}
 
 	@Override
-	public double addMiles() {
+	public double addMiles(float milles) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

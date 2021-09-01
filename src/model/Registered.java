@@ -44,11 +44,11 @@ public class Registered extends Passenger {
 	}
 
 	@Override
-	public double addMiles() {
-		this.milles+= findPassenger(this.idPassenger).getFlights().getTarget().getDistance();
+	public double addMiles(float milles) {
+		this.milles+= milles;
 		return milles;
 	}
-	
+
 	
 
 

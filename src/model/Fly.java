@@ -74,7 +74,6 @@ public class Fly{
 		int great=tickets.get(0).getPassengers().getAge();
 		Ticket greatAgeTicket=tickets.get(0);
 		for (Ticket passenger : tickets) {
-			System.out.println(passenger.getPassengers().getAge()+"->"+great);
 			if(passenger.getPassengers().getAge()>great) {
 				great = passenger.getPassengers().getAge();
 				greatAgeTicket=passenger;
@@ -118,11 +117,7 @@ public class Fly{
 	public void setTickets(ArrayList<Ticket> ticket) {
 		this.tickets = ticket;
 	}
-	@Override
-	public String toString() {
-		return "Fly [number=" + number + ", target=" + target + ", airplane=" + airplane + ", date=" + date + ", time="
-				+ time + ", tickets=" + tickets + "]";
-	}
+
 	
 	
 	

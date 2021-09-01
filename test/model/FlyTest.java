@@ -3,14 +3,12 @@ package model;
 import exceptions.ExceptionDate;
 import static  org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.ArrayList;
+
 
 /**
  * Clase de Pruebas de la Clase Fly.
@@ -24,7 +22,7 @@ class FlyTest {
     Passenger alejandra;
 
     /**
-     * Método para crear el escenario con el estado de los objetos.
+     * Metodo para crear el escenario con el estado de los objetos.
      */
     private void setup() throws ExceptionDate {
         plane = new Airplane("AB-45",(short)120,(short)2015, ETypeAirplane.AirbusA330 );
@@ -45,10 +43,9 @@ class FlyTest {
      */
     public void testNewFly(){
     	
-        //Si La fecha del vuelo es menor a la fecha actual, se debe lanzar la excepción
+        //Si La fecha del vuelo es menor a la fecha actual, se debe lanzar la excepcion
         assertThrows(ExceptionDate.class, ()->{
             Fly fly = new Fly("Fl000",madrid,plane,LocalDate.of(2020,Month.DECEMBER,22), LocalTime.of( 15,23));
-            System.out.println("ESTO NO SE VISUALIZA PORQUE SE LANZÓ LA EXCEPCIÓN");
         });
         
         assertAll(()->{
@@ -112,8 +109,10 @@ class FlyTest {
         //El valor del vuelo es la suma del valor de ticket de cada pasajero.
         assertEquals(6_750_000,fly.calcTotal(),0.1);
 
-        //Cambiando el año del avión, a más de 10 años, se resta el 10% del valor del Ticket (250.000)
+        //Cambiando el a�o del avion, a mas de 10 a�os, se resta el 10% del valor del Ticket (250.000)
+        
         plane.setYear((short)2000);
+        
         //Fabio, valor Ticket - 250.000 = 1.875.000
         //Alejandra, valor Ticket - 250.000 = 1.875.000
         //Victor, valor Ticket - 250.000 = 2.250.000
@@ -123,7 +122,7 @@ class FlyTest {
 
     @Test
     /**
-     * Caso de prueba que valida el método que retorna el Pasajero de menor edad en el vuelo.
+     * Caso de prueba que valida el metodo que retorna el Pasajero de menor edad en el vuelo.
      */
     public void testGetLessAge() throws ExceptionDate {
         setup();
@@ -139,8 +138,6 @@ class FlyTest {
     }
     
     @Test
-    
-    
     public void testGetGreaterAge() throws ExceptionDate{
         setup();
         //Agregar los tres pasajeros al Vuelo de Madrid, el avion es de 2015, no aplica descuento

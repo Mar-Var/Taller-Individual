@@ -15,20 +15,22 @@ class TestPassenger {
 	 	private Fly fly;
 	 	private Fly fly1;
 	    private Airplane  plane;
+	    private Airplane  plane2;
 	    private Target madrid;
 	    private Target buenaventura;
 	    Registered fabio;
 	    Occasional victor;
 
 	    /**
-	     * Método para crear el escenario con el estado de los objetos.
+	     * Metodo para crear el escenario con el estado de los objetos.
 	     */
 	    private void setup() throws ExceptionDate {
 	        plane = new Airplane("AB-45",(short)120,(short)2015, ETypeAirplane.AirbusA330 );
+	        plane2 = new Airplane("AB",(short)120,(short)2015, ETypeAirplane.Boeing763 );
 	        madrid = new Target("TG-01","Madrid",2_500_000,7890f);
-	        buenaventura = new Target("TG_ASD", "Buenaventura", 2_800_00, 2500f);
-	        fly = new Fly("Fl874",madrid,plane, LocalDate.of(2021, Month.APRIL,12), LocalTime.of(16,30));
-	        fly1 = new Fly("Fl874",buenaventura,plane, LocalDate.of(2021, Month.APRIL,12), LocalTime.of(16,30));
+	        buenaventura = new Target("TG_ASD", "Buenaventura", 2_800_00, 1000f);
+	        fly = new Fly("Fl874",madrid,plane, LocalDate.of(2021, Month.DECEMBER,12), LocalTime.of(16,30));
+	        fly1 = new Fly("Fl875",buenaventura,plane, LocalDate.of(2021, Month.SEPTEMBER,12), LocalTime.of(16,30));
 
 	        fabio = new Registered("74898394","Fabio Enrique","Lozano Yepes","Colombia",LocalDate.of(1970,Month.JANUARY,11),LocalDate.of(2017,Month.FEBRUARY,12));
 
@@ -45,11 +47,11 @@ class TestPassenger {
 	        fly.addPassenger( fabio,(short)5 );
 	        //Es necesario al Pasajero asignarle el vuelo
 	        fabio.addToFly(fly, (short)5);
-	        //El año del Avión es 2015, por lo tanto no aplica el 10% de descuento.
+	        //El a�o del Avion es 2015, por lo tanto no aplica el 10% de descuento.
 	        //Se aplica un descuento del 15% por ser Pasajero Registrado
 	        assertEquals(2_125_000,fabio.getTicketCost(),0.1);
 
-	        //Cambiamos el año del avión para que aplique un 10% de descuento adicional sobre el valor del Ticket
+	        //Cambiamos el a�o del avion para que aplique un 10% de descuento adicional sobre el valor del Ticket
 	        plane.setYear((short)2005);
 	        assertEquals(1_875_000,fabio.getTicketCost(),0.1);
 	    }
@@ -59,19 +61,25 @@ class TestPassenger {
 	     * Caso de Prueba que valida que se sumen las millas de la distancia del destino al pasajero Registrado
 	     */
 	    public void testMilles() throws ExceptionDate {
+
 	        setup();
-	        //Se agrega al vuelo de Madrid al pasajero Fabio (Pasajero Registrado). Distancia 7890 millas
-	        fly.addPassenger( fabio, (short)5);
-	        //Es necesario al Pasajero asignarle el vuelo, suma 7890 millas
-	        fabio.addToFly(fly, (short)5 );
-	        assertEquals(7890,fabio.getMilles());
+
+	        fly.addPassenger( fabio,(short)30 ); //Pasajero Registrado 
+	        fabio.addToFly( fly,(short)10 ); 
+	        fly.addPassenger( victor,(short)20 ); //Pasajero no Registrado,
+	        victor.addToFly( fly ,(short)30); 
+	        // A�adimos a otro vuelo a el pasajero fabio para sumar millas
+	        fly1.addPassenger(fabio, (short)5);
+	        fabio.addToFly(fly1, (short)5 );
+	        
+	        assertEquals(8890,fabio.getMilles());
 	    }
 
 	    @Test
 	    public void testOccasional() throws ExceptionDate {
 	        setup( );
 
-	        //Se agrega al vuelo de Madrid al pasajero Victor (Pasajero Ocasional). Valor del Tiquete 2.500.000. Con sobreequipaje
+	        //Se agrega al vuelo de Madrid al pasajero Victor (Pasajero Ocasional).Con sobreequipaje
 	        fly.addPassenger( victor,(short)10,35f );
 	        //Es necesario al Pasajero asignarle el vuelo.Con sobreequipaje
 	        victor.addToFly( fly ,(short)10,35f );
@@ -85,7 +93,7 @@ class TestPassenger {
 
 	    @Test
 	    /**
-	     * Caso de prueba que valida el método de calcular la edad de un Pasajero
+	     * Caso de prueba que valida el metodo de calcular la edad de un Pasajero
 	     */
 	    public void testGetAge() throws ExceptionDate {
 	        setup();
